@@ -1,0 +1,24 @@
+{
+  "name": "json-evn-configurator",
+  "version": "1.0.0",
+  "description": "Creates object with fields that are merged from environmental variables and fields from json file",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itrambovetskyi/json-evn-configurator.git"
+  },
+  "keywords": [
+    "config",
+    "json",
+    "env"
+  ],
+  "author": "itrambovetskyi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itrambovetskyi/json-evn-configurator/issues"
+  },
+  "homepage": "https://github.com/itrambovetskyi/json-evn-configurator#readme"
+}
