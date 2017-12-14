@@ -1,4 +1,3 @@
-
 /**
  * Configurator class
  * Reads mentioned JSON file and check for corresponding environmental variables and adds
@@ -13,7 +12,13 @@ class Configurator {
         Object.keys(configJson).forEach(key => {
             const envVarName = envPrefix ? `${envPrefix}.${key}` : key;
 
-            me[key] = process.env[envVarName] ? process.env[envVarName] : configJson[key];
+            if (process.env[envVarName]) {
+                me[key] = process.env[envVarName] === `true` ? true :
+                    process.env[envVarName] === `false` ? false :
+                        process.env[envVarName];
+            } else {
+                me[key] = configJson[key];
+            }
         });
     }
 
