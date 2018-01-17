@@ -7,6 +7,10 @@ const Utils = require(`./Utils`);
  */
 class Configurator {
 
+    static get LEVELS_SEPARATOR() {
+        return process.env[`JSON_ENV_CONFIGURATOR_LEVELS_SEPARATOR`] || `.`;
+    }
+
     /**
      * Creates new configuration object
      * @param pathToConfigJson
@@ -15,6 +19,7 @@ class Configurator {
     constructor(pathToConfigJson, envPrefix = ``) {
         const me = this;
 
+        me.levelsSeparator = Configurator.LEVELS_SEPARATOR;
         me.envPrefix = envPrefix;
 
         me._spreadConfigValues(require(pathToConfigJson), me);
@@ -33,10 +38,9 @@ class Configurator {
         Object.keys(configObject).forEach(key => {
             if (Utils.isObject(configObject[key])) {
                 rootObject[key] = {};
-                me._spreadConfigValues(configObject[key], rootObject[key], `${rootKey}.${key}`);
+                me._spreadConfigValues(configObject[key], rootObject[key], `${rootKey}${me.levelsSeparator}${key}`);
             } else {
-                const rootString = rootKey ? `.${rootKey}` : ``;
-                const envVarName = me.envPrefix ? `${me.envPrefix}${rootKey}.${key}` : key;
+                const envVarName = me.envPrefix ? `${me.envPrefix}${rootKey}${me.levelsSeparator}${key}` : key;
 
                 if (process.env[envVarName]) {
                     rootObject[key] = process.env[envVarName] === `true` ? true :
