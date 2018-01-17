@@ -1,6 +1,6 @@
 {
   "name": "json-evn-configurator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Creates object with fields that are merged from environmental variables and fields from json file",
   "main": "index.js",
   "scripts": {
