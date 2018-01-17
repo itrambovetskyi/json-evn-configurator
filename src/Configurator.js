@@ -7,8 +7,11 @@ const Utils = require(`./Utils`);
  */
 class Configurator {
 
+    static get DEFAULT_SEPARATOR() { return `.`; }
+    static get SEPARATOR_KEY() { return `ENVSEPARATOR`; }
+
     static get LEVELS_SEPARATOR() {
-        return process.env[`JSON_ENV_CONFIGURATOR_LEVELS_SEPARATOR`] || `.`;
+        return process.env[Configurator.SEPARATOR_KEY] || Configurator.DEFAULT_SEPARATOR;
     }
 
     /**
