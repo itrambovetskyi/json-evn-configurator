@@ -1,4 +1,16 @@
 {
     "NO_CORRESPONDING_ENV_VAR": "Not overridden",
-    "HAS_CORRESPONDING_ENV_VAR": "Not overridden"
+    "HAS_CORRESPONDING_ENV_VAR": "Not overridden",
+    "DEEP_CONFIGURATION": {
+        "FIRST_DEEP_TEST": true,
+        "FIRST_DEEP_TEST_ENV_VAR": false,
+        "DEEPER_CONFIGURATION": {
+            "SECOND_DEEP_TEST": 10,
+            "SECOND_DEEP_TEST_ENV_VAR": 15,
+            "DEEPEST_CONFIGURATION": {
+                "THIRD_DEEP_TEST": "really?",
+                "THIRD_DEEP_TEST_ENV_VAR": "no"
+            }
+        }
+    }
 }
