@@ -26,3 +26,11 @@ console.log(`${config.DEEP_CONFIGURATION.DEEPER_CONFIGURATION.SECOND_DEEP_TEST} 
 console.log(`${config.DEEP_CONFIGURATION.DEEPER_CONFIGURATION.SECOND_DEEP_TEST_ENV_VAR} should be ${process.env[env3Key]}`);
 console.log(`${config.DEEP_CONFIGURATION.DEEPER_CONFIGURATION.DEEPEST_CONFIGURATION.THIRD_DEEP_TEST} should be ${initialConfigJSON.DEEP_CONFIGURATION.DEEPER_CONFIGURATION.DEEPEST_CONFIGURATION.THIRD_DEEP_TEST}`);
 console.log(`${config.DEEP_CONFIGURATION.DEEPER_CONFIGURATION.DEEPEST_CONFIGURATION.THIRD_DEEP_TEST_ENV_VAR} should be ${process.env[env4Key]}`);
+
+const configPlainObject = configurator({
+    NO_ENV: `true`,
+    HAS_CORRESPONDING_ENV_VAR: `false`
+}, TEST_PREFIX);
+
+console.log(`${configPlainObject.NO_ENV} should be true`);
+console.log(`${configPlainObject.HAS_CORRESPONDING_ENV_VAR} should be ${process.env[env1Key]}`);

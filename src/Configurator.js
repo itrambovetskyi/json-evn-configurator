@@ -16,16 +16,23 @@ class Configurator {
 
     /**
      * Creates new configuration object
-     * @param pathToConfigJson
+     * @param pathToConfigJsonOrPlainObject
      * @param envPrefix
      */
-    constructor(pathToConfigJson, envPrefix = ``) {
+    constructor(pathToConfigJsonOrPlainObject, envPrefix = ``) {
         const me = this;
+        let configJsonObject;
 
         me.levelsSeparator = Configurator.LEVELS_SEPARATOR;
         me.envPrefix = envPrefix;
 
-        me._spreadConfigValues(require(pathToConfigJson), me);
+        if (Utils.isObject(pathToConfigJsonOrPlainObject)) {
+            configJsonObject = pathToConfigJsonOrPlainObject;
+        } else {
+            configJsonObject = require(pathToConfigJsonOrPlainObject);
+        }
+
+        me._spreadConfigValues(configJsonObject, me);
     }
 
     /**
