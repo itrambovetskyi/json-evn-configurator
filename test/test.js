@@ -34,3 +34,12 @@ const configPlainObject = configurator({
 
 console.log(`${configPlainObject.NO_ENV} should be true`);
 console.log(`${configPlainObject.HAS_CORRESPONDING_ENV_VAR} should be ${process.env[env1Key]}`);
+
+
+const configIgnoreCase = configurator({
+    no_env: `true`,
+    has_corresPonding_env_VAR: `false`
+}, TEST_PREFIX, true);
+
+console.log(`${configIgnoreCase.no_env} should be true`);
+console.log(`${configIgnoreCase.has_corresPonding_env_VAR} should be ${process.env[env1Key]}`);

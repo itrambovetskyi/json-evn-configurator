@@ -1,6 +1,6 @@
 const Configurator = require(`./src/Configurator`);
 
 
-module.exports = function (pathToJson, envPrefix) {
-    return new Configurator(pathToJson, envPrefix);
+module.exports = function (pathToJson, envPrefix, ignoreCase) {
+    return new Configurator(pathToJson, envPrefix, ignoreCase);
 };

@@ -18,18 +18,25 @@ class Configurator {
      * Creates new configuration object
      * @param pathToConfigJsonOrPlainObject
      * @param envPrefix
+     * @param ignoreCase
      */
-    constructor(pathToConfigJsonOrPlainObject, envPrefix = ``) {
+    constructor(pathToConfigJsonOrPlainObject, envPrefix = ``, ignoreCase = false) {
         const me = this;
         let configJsonObject;
 
         me.levelsSeparator = Configurator.LEVELS_SEPARATOR;
         me.envPrefix = envPrefix;
+        me.ignoreCase = ignoreCase;
 
         if (Utils.isObject(pathToConfigJsonOrPlainObject)) {
             configJsonObject = pathToConfigJsonOrPlainObject;
         } else {
             configJsonObject = require(pathToConfigJsonOrPlainObject);
+        }
+
+        if (me.ignoreCase === true) {
+            me.envVarKeyList = Object.keys(process.env);
+            me.envVarKeyListLC = me.envVarKeyList.map((key) => key.toLowerCase());
         }
 
         me._spreadConfigValues(configJsonObject, me);
@@ -48,21 +55,34 @@ class Configurator {
         Object.keys(configObject).forEach(key => {
             if (Utils.isObject(configObject[key])) {
                 rootObject[key] = {};
-                me._spreadConfigValues(configObject[key], rootObject[key], `${rootKey}${me.levelsSeparator}${key}`);
+                me._spreadConfigValues(configObject[key], rootObject[key], me.envPrefix || rootKey ? `${rootKey}${me.levelsSeparator}${key}` : key);
             } else {
-                const envVarName = me.envPrefix ? `${me.envPrefix}${rootKey}${me.levelsSeparator}${key}` : key;
+                const envVarName = me.envPrefix ? `${me.envPrefix}${rootKey}${me.levelsSeparator}${key}` : `${rootKey}${me.levelsSeparator}${key}`;
 
-                if (process.env[envVarName]) {
-                    rootObject[key] = process.env[envVarName] === `true` ? true :
-                        process.env[envVarName] === `false` ? false :
-                            process.env[envVarName];
+                if (me.ignoreCase === true) {
+                    const envVarNameLC = envVarName.toLowerCase();
+
+                    if (me.envVarKeyListLC.includes(envVarNameLC)) {
+                        const keyIndex = me.envVarKeyListLC.indexOf(envVarNameLC);
+
+                        rootObject[key] = process.env[me.envVarKeyList[keyIndex]] === `true` ? true :
+                            process.env[me.envVarKeyList[keyIndex]] === `false` ? false :
+                                process.env[me.envVarKeyList[keyIndex]];
+                    } else {
+                        rootObject[key] = configObject[key];
+                    }
                 } else {
-                    rootObject[key] = configObject[key];
+                    if (process.env[envVarName]) {
+                        rootObject[key] = process.env[envVarName] === `true` ? true :
+                            process.env[envVarName] === `false` ? false :
+                                process.env[envVarName];
+                    } else {
+                        rootObject[key] = configObject[key];
+                    }
                 }
             }
         });
     }
-
 }
 
 
